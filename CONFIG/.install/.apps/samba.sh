@@ -21,7 +21,7 @@ source /home/pi/.configuracion/.scripts/.files/funciones.sh
 export smb="true"
 export paquete="samba"
 export uf="ufw"
-export dirpi="/smb/WinServer"
+export dirpi="/smb/WinServer/eBooks"
 export dirwin="//192.168.1.60/eBooks"
 export nombre="Wild South"
 export usuario="pi"
