@@ -65,6 +65,7 @@ function install_raspcontrol() {
     echo "               Visita en tu navegador               "
     sleep 3
     echo "    \e[31mhttp://$hostname.local:raspcontrol\e[0m    "
+    sleep 3
     echo "****************************************************" 
 
     clear
