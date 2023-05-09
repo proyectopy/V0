@@ -2,7 +2,7 @@
 
 ########################################################################
 # Script: ereader.sh
-# Descripcion: Instalar eReader ubooquity
+# Descripcion: Instalar Samba
 # Argumentoss: N/A
 # Creacion/Actualizacion: DIC2021/SEPT2022
 # Version: V0
@@ -19,11 +19,13 @@ source /home/pi/.configuracion/.scripts/.files/funciones.sh
 # VARIABLES USADAS EN ESTE SCRIPT
 ########################################################################
 export smb="true"
-export paquete="samba"
-export uf ="ufw"
-export dir="/mnt/RaspberryPi"
+export paquete ="samba"
+export uf = "ufw"
+export dirpy ="/smb/WinServer"
+export dirwin = "//192.168.1.60/eBooks"
 export nombre="Wild South"
 export usuario="pi"
+export usuariowin="Wild"
 export clave="Ant4vi4n4"
 # export clave="$5$hOAQShHbJd$H7XtdiWyLOCP2HsGq38zmVpPVjJ4rxF4OwziXMZEgX9"
 export wgroup="workgroup = 1NF3RN0"
@@ -43,7 +45,8 @@ function install_smb() {
     sudo dpkg --configure -a &>/dev/null
 
     #Instalamos Samba
-    sudo apt install -y samba samba-common-bin &>/dev/null
+    sudo apt install -y samba samba-common-bin 
+    #&>/dev/null
     
     clear
     msg_espere
@@ -73,9 +76,9 @@ function install_smb() {
     sudo sed -i "s/ map to guest = bad user/ map to guest = never/g" /etc/samba/smb.conf
     sudo sed -i "s/ read only = yes/ read only = no/g" /etc/samba/smb.conf
     sudo echo "# Añadido por el script de Configuracion Inicial" >> /etc/samba/smb.conf
-    sudo echo "[RaspberryPi]" >> /etc/samba/smb.conf
-    sudo echo "     comment = Carpeta compartida de la Raspberry Pi" >> /etc/samba/smb.conf
-    sudo echo "     path = $dir" >> /etc/samba/smb.conf
+    sudo echo "[WinINPy]" >> /etc/samba/smb.conf
+    sudo echo "     comment = Carpetas compartidas de Windows en Raspberry Pi" >> /etc/samba/smb.conf
+    sudo echo "     path = $dirpi" >> /etc/samba/smb.conf
     sudo echo "     writeable = Yes" >> /etc/samba/smb.conf
     sudo echo "     create mask = 0777" >> /etc/samba/smb.conf
     sudo echo "     directory mask = 0777" >> /etc/samba/smb.conf
@@ -83,8 +86,24 @@ function install_smb() {
     sudo echo "     valid users @users" >> /etc/samba/smb.conf
     sudo echo "     force user = pi" >> /etc/samba/smb.conf
 
-    
+    #CREAR CARPETA Y MONTAR CIFS EN FSTAB
+    sudo mkdir -p $dirpi 
 
+    sudo cp /etc/fstab /etc/fstab.old
+    #sudo touch /etc/fstab
+    sudo chown -R pi:pi /etc/fstab
+    sudo chmod -R 770 /etc/fstab
+
+    # Escribe el archivo fstab
+    
+    echo "$dirpi    $dirwin cifs user=$usuariowin,password=$clave,noexec,user,rw,nounix,uid=1000,iocharset=utf8 0 0" >> /etc/fstab
+    
+    sudo chown -R root:root /etc/fstab
+    sudo chmod -R 644 /etc/fstab
+
+    sudo mount -t cifs $dirwin $dirpi -o username=$usuariowin,password=$clave,iocharset=utf8,uid=1000
+    
+fi
 
 
 
