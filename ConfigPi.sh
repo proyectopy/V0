@@ -353,4 +353,5 @@ function continue_install (){
 # INICIAR SCRIPT
 ########################################################################
 comprueba
+#comprueba
 #clone_repo
