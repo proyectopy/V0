@@ -19,6 +19,7 @@ source /home/pi/.configuracion/.scripts/.files/funciones.sh
 # VARIABLES USADAS EN ESTE SCRIPT
 ########################################################################
 raspcontrol=true
+hostname="proyectopy"
 #export paquete="rpimonitor"
 ########################################################################
 ########################################################################
