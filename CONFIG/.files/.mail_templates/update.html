@@ -1,0 +1,187 @@
+From: proyectopy@gmx.es
+To: chiclanaweb@gmail.com
+Subject: Script de actualizacion ejecutado
+Mime-Version: 1.0
+Content-Type: text/html
+<head><link rel="stylesheet" type="text/css" hs-webfonts="true" href="https://fonts.googleapis.com/css?family=Lato|Lato:i,b,bi">
+    <title>Email template</title>
+    <meta property="og:title" content="Email template">
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+    
+        a{ 
+        text-decoration: underline;
+        color: inherit;
+        font-weight: bold;
+        color: #253342;
+        }
+        
+        h1 {
+        font-size: 56px;
+        color: #d94c53;
+        }
+        
+        h2{
+        font-size: 28px;
+        font-weight: 900; 
+        }
+
+        /* p{
+        font-size: 28px;
+        font-weight: 900; 
+        } */
+        
+         p {
+        font-weight: 100;
+        }
+        
+        td {
+    vertical-align: top;
+        }
+
+    #email {
+        margin: auto;
+        width: 600px;
+        background-color: white;
+    }
+    
+    button{
+        font: inherit;
+        background-color: #FF7A59;
+        border: none;
+        padding: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 900; 
+        color: white;
+        border-radius: 5px; 
+        box-shadow: 3px 3px #d94c53;
+    }
+    
+    .subtle-link {
+        font-size: 9px; 
+        text-transform:uppercase; 
+        letter-spacing: 1px;
+        color: #CBD6E2;
+    }
+    
+    </style>
+</head>
+
+    <body bgcolor="#577874" style="width: 100%; margin: auto 0; padding:0; font-family:Lato, sans-serif; font-size:18px; color:#33475B; word-break:break-word">
+  
+        <!-- View in Browser Link -->
+         
+        <div id="email">
+            <table align="right" role="presentation">
+            <tr>
+                <td>
+                <a class="subtle-link" href="#">Ver en el Navegador</a>
+                </td>
+                <tr>
+            </table>
+     
+     
+            <!-- Banner  -->
+            <table role="presentation" width="100%">
+                <tr>
+                    <td bgcolor="#093734" align="center" style="color: white;">
+                
+                        <h1> Notificacion de ProyectoPy  </h1>
+                    
+                    </td>
+                </tr>    
+            </table>
+     
+            <!--First Row -->
+     
+            <table role="presentation" border="0" cellpadding="0" cellspacing="10px" style="padding: 30px 30px 30px 60px;">
+                <tr>
+                    <td>
+                        
+
+                        
+                        <h2 id=hoy> </h2>
+                        <p>
+                            .. y como cada dia se ha ejecutado el script updater de tu Raspberry Pi con Raspbian.  
+                        </p>
+                            <!-- <button> 
+                                Button 1
+                            </button> -->
+                    </td> 
+                </tr>
+            </table>
+     
+            <!--Second Row with Two Columns-->
+            <table role="presentation" border="0" cellpadding="0" cellspacing="10px" width="100%" style="padding: 30px 30px 30px 60px;">
+                <tr>
+                    <td> 
+                        <!-- <h2> Vivamus ac elit eget </h2> -->
+                            <p>
+                                ¡¡Un placer poder informarte de que se ha ejecutado correctamente!! 
+                            </p>
+                    </td>
+           
+                    <!-- <td>
+               
+                        <img alt="Shopping" src="https://www.hubspot.com/hubfs/assets/hubspot.com/style-guide/brand-guidelines/guidelines_sample-illustration-5.svg" width="200px" align="middle">
+                        <h2> Suspendisse tincidunt iaculis </h2>
+                        <p>
+                            Suspendisse tincidunt iaculis fringilla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras laoreet elit purus, quis pulvinar ipsum pulvinar et. 
+                        </p> 
+                    </td> -->
+                </tr>
+         
+                <!-- <tr>
+                 <td> <button> Button 2 </button> </td> 
+                 <td> <button> Button 3 </button> </td> 
+                </tr> -->
+                 
+            </table>
+        
+            <!-- Banner Row -->
+            <table role="presentation" bgcolor="#D8205F" width="100%" style="color: white; margin-top: 50px;" >
+                <tr>
+                    <td align="center" style="padding: 30px 30px;">
+                    
+                        <h2> Feliz Dia desde ProyectoPy.</h2>
+                        <p>
+                            Correo enviado por el crontab de ProyectoPy. 
+                        </p>
+                        <!-- <a href="#"> </a>       -->
+                    </td>
+                </tr>
+            </table>
+
+            <!--Unsubscribe Footer-->
+            <table role="presentation" bgcolor="#F5F8FA" width="100%" >
+                <tr>
+                    <td align="left" style="padding: 30px 30px;">
+                    <p style="color:#99ACC2"> Creado con &hearts; por ProyectoPy </p>
+                        <a class="subtle-link" href="#"> Cancelar suscripcion</a>      
+                    </td>
+                </tr>
+            </table> 
+        </div>
+        <script type="text/javascript">
+            var fecha = new Date(); 
+            
+            var semana0 = "Hola, hoy es Domingo."; 
+            var semana1 = "Hola, hoy es Lunes."; 
+            var semana2 = "Hola, hoy es Martes."; 
+            var semana3 = "Hola, hoy es Miércoles."; 
+            var semana4 = "Hola, hoy es Jueves."; 
+            var semana5 = "Hola, hoy es Viernes."; 
+            var semana6 = "Hola, hoy es Sábado."; 
+            
+            var hoy = fecha.getDay(); 
+            
+            document.getElementById("hoy").textContent = eval("semana" + hoy);
+        </script>    
+    </body>
+</html>
