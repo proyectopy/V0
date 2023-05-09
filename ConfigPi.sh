@@ -299,7 +299,7 @@ function install_jq() {
 function clone_repo() {
     cursor_off
     descargando
-    git clone https://github.com/RaspyServer/V0.git &>/dev/null
+    git clone https://github.com/proyectopy/V0.git &>/dev/null
     sleep 2 
     descargado
     sleep 2
@@ -352,5 +352,5 @@ function continue_install (){
 ########################################################################
 # INICIAR SCRIPT
 ########################################################################
-comprueba
-
+#comprueba
+clone_repo
