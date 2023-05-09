@@ -40,7 +40,7 @@ function install_raspcontrol() {
     # sudo apt update
     # sudo apt install rpimonitor
 
-    sudo git clone https://github.com/harmon25/raspcontrol.git /.githubRepos/
+    sudo git clone https://github.com/harmon25/raspcontrol.git /.githubRepos/raspcontrol/
 
      # Escribe el archivo con la autentificacion
     sudo mkdir -p /etc/raspcontrol/
