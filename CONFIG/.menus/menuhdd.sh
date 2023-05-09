@@ -2,7 +2,7 @@
 
 ########################################################################
 # Script: menuhdd.sh
-# Descripcion: Menu Ajustes Disco duro del servidor ProyectoPy
+# Descripcion: Menu Ajustes Disco duro del servidor Proyecto Py
 # Argumentoss: N/A
 # Creacion/Actualizacion: DIC2021/SEPT2022
 # Version: V1.1.2

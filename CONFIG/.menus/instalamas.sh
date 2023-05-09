@@ -2,7 +2,7 @@
 
 ########################################################################
 # Script: menuapps.sh
-# Descripcion: Menu Aplicaciones del servidor ProyectoPy
+# Descripcion: Menu Aplicaciones del servidor Proyecto Py
 # Argumentoss: N/A
 # Creacion/Actualizacion: DIC2021/SEPT2022
 # Version: V1.1.2
