@@ -1080,7 +1080,11 @@ function configurar() {
                 sudo mv V0/CONFIG/.install .configuracion/.scripts
                 sudo mv V0/CONFIG/.uninstall .configuracion/.scripts
                 sudo mv V0/CONFIG/.menus .configuracion/.scripts
-                # sudo rm -rf /home/pi/V0
+                
+                #BORRADO CARPETAS Y ARCHIVOS INNECESARIOS
+                sudo rm -rf /home/pi/V0
+                sudo rm f ConfigPi.sh
+
                 #Ejecuta el script
                 sleep 3
                 source .configuracion/.scripts/conf.sh
