@@ -32,7 +32,7 @@ menu_apps() {
 
         ${F_VDOBLE}$(ColorVerde '2)') Instalar Git
 
-        ${F_VDOBLE}$(ColorVerde '3)') Deshabilitado
+        ${F_VDOBLE}$(ColorVerde '3)') Instalar Raspcontrol
 
         ${F_VDOBLE}$(ColorVerde '4)') Deshabilitado
 
@@ -66,8 +66,8 @@ menu_apps() {
         source /home/pi/.configuracion/.scripts/.menus/instalamas.sh
         ;;
     3)
-        # sudo chmod +x /home/pi/.configuracion/.scripts/.install/.apps/java.sh
-        # source /home/pi/.configuracion/.scripts/.install/.apps/java.sh
+        sudo chmod +x /home/pi/.configuracion/.scripts/.install/.apps/raspcontrol.sh
+        source /home/pi/.configuracion/.scripts/.install/.apps/raspcontrol.sh
         sleep 6
         sudo chmod +x /home/pi/.configuracion/.scripts/.menus/instalamas.sh
         source /home/pi/.configuracion/.scripts/.menus/instalamas.sh
