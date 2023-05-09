@@ -19,10 +19,10 @@ source /home/pi/.configuracion/.scripts/.files/funciones.sh
 # VARIABLES USADAS EN ESTE SCRIPT
 ########################################################################
 export smb="true"
-export paquete ="samba"
-export uf = "ufw"
-export dirpy ="/smb/WinServer"
-export dirwin = "//192.168.1.60/eBooks"
+export paquete="samba"
+export uf="ufw"
+export dirpi="/smb/WinServer"
+export dirwin="//192.168.1.60/eBooks"
 export nombre="Wild South"
 export usuario="pi"
 export usuariowin="Wild"
@@ -100,10 +100,10 @@ function install_smb() {
     
     sudo chown -R root:root /etc/fstab
     sudo chmod -R 644 /etc/fstab
-
-    sudo mount -t cifs $dirwin $dirpi -o username=$usuariowin,password=$clave,iocharset=utf8,uid=1000
+    #sudo mount -t cifs //192.168.1.60/eBooks -o username=Wild,password=Ant4vi4n4 /smb/WinServer
+    sudo mount -t cifs $dirwin -o username=$usuariowin,password=$clave $dirpi 
     
-fi
+#fi
 
 
 
@@ -148,7 +148,7 @@ fi
 function install_ufw() {
     if dpkg-query -W -f'${db:Status-Abbrev}\n' ufw 2>/dev/null \ | grep -q '^.i $';
     then
-    ufw
+    app_ufw
     msg_error_instalado
     sleep 3
 
