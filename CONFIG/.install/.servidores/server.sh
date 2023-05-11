@@ -19,13 +19,14 @@ source /home/pi/.configuracion/.scripts/.files/funciones.sh
 ########################################################################
 hostname="$(cat /etc/hostname)"
 uf=ufw
-paquete=emby-server
+paqueteserver=nginx
+paquetemaria=mariadb-server
 emby=true
 ####################################################
 #      COMPROBAR INSTALACION DE NGINX       
 ####################################################
 function install_nginx() {
-    if dpkg-query -W -f'${db:Status-Abbrev}\n' nginx 2>/dev/null \ | grep -q '^.i $';
+    if dpkg-query -W -f'${db:Status-Abbrev}\n' $paqueteserver 2>/dev/null \ | grep -q '^.i $';
     then
 
         clear
@@ -33,6 +34,7 @@ function install_nginx() {
         msg_yaesta
         msg_instalado
         clear
+        install_mariadb
 
     else
 
@@ -86,8 +88,103 @@ function install_nginx() {
         sudo ln -s /etc/nginx/sites-available/proyectopy.duckdns.org /etc/nginx/sites-enabled/proyectopy.duckdns.org
 
         sudo systemctl reload nginx
-
+        msg_instalado
+        
     fi    
+    install_mariadb
+}
+########################################################################
+#                   INSTALAR MARIADB
+########################################################################
+function install_mariadb() {
+    if dpkg-query -W -f'${db:Status-Abbrev}\n' $paquetemaria 2>/dev/null \ | grep -q '^.i $';
+    then
 
+        clear
+        msg_yaesta
+        
+        clear
+
+    else
+        clear
+        cursor_off
+        msg_preparando
+        
+
+        msg_instalando
+        
+        msg_espere
+        sudo apt-get install $paquetemaria -y &>/dev/null
+        #Start the MariaDB service.
+
+        sudo systemctl start mariadb
+        #Enable the MariaDB service to start at system reboot.
+
+        sudo systemctl enable mariadb
+
+        #sudo mysql_secure_installation
+#
+        #sudo mysql_secure_installation <<_EOF_
+        #    Ant4vi4n4
+        #    y
+        #    y
+        #    Ant4vi4n4
+        #    Ant4vi4n4
+        #    y
+        #    y
+        #    y
+        #    y
+        #    _EOF_
+
+
+    #sudo echo -e "\ny\ny\nAnt4vi4n4\nAnt4vi4n4\ny\ny\ny\ny" | /usr/bin/mysql_secure_installation
+    #echo -e "\ny\ny\nabc\nabc\ny\ny\ny\ny\n" | ./usr/bin/mysql_secure_installation
+    sudo chmod +x /home/pi/secure.sh
+    sudo chown pi:pi /home/pi/secure.sh
+    source /home/pi/secure.sh
+    cursor_on
+    msg_preparando
+    fi
+    # Descargar Emby
+    #Version Beta
+    #wget https://github.com/MediaBrowser/Emby.Releases/releases/download/4.8.0.8/emby-server-deb_4.8.0.8_armhf.deb #&>/dev/null
+
+    #Version Estable
+    # wget https://github.com/MediaBrowser/Emby.Releases/releases/download/4.7.6.0/emby-server-deb_4.7.6.0_armhf.deb &>/dev/null
+    # Descomprime e instala emby
+    
+    # Instalar Emby
+    #Version beta 4.8.0.8
+    #sudo dpkg -i emby-server-deb_4.7.0.8_armhf.deb  #&>/dev/null
+    #Version estable 4.7.6.0
+    # sudo dpkg -i emby-server-deb_4.7.6.0_armhf.deb &>/dev/null 
+
+    #clear
+    #msg_abrirpuertos
+    ##abre puertoe 6154 y 8096
+    #sudo ufw allow 6154 &>/dev/null
+    #sudo ufw allow 8096 &>/dev/null
+    #sleep 3
+
+    #msg_limpiando
+    #Elimina el archivo comprimido
+    #sudo rm -rf home/pi/emby-server-deb_4.7.6.0_armhf.deb
+
+
+    # echo "" 
+    # echo -ne "${F_VDOBLE}******************************************"
+    # echo "${F_VDOBLE}       Configura a tu gusto Emby Server       "
+    # sleep 3
+    # echo "" 
+    # echo -ne "${F_VDOBLE}        Visita en tu navegador            "
+    # sleep 3
+    # echo "" 
+    # echo -ne "${F_VDOBLE}  \e[31mhttp://$hostname.local:8096\e[0m  "
+    # echo "" 
+    # echo -ne "${F_VDOBLE}******************************************"
+    # echo "" 
+    #clear
+    #msg_instalado
+    #cursor_on
 }
 install_nginx

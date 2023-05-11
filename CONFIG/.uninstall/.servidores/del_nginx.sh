@@ -17,7 +17,7 @@ source /home/pi/.configuracion/.scripts/.files/funciones.sh
 ########################################################################
 # VARIABLES NECESARIAS
 ########################################################################
-paquete=mariadb-server
+paquete=nginx
 ########################################################################
 ########################################################################
 # DESINSTALAR MARIADB         *
@@ -29,7 +29,7 @@ then
 
     sudo apt-get purge $paquete -y &>/dev/null
     sudo apt autoremove -y &>/dev/null
-    sudo apt purge y mariadb-client-10.5 mariadb-common mariadb-server-10.5 -y &>/dev/null
+    sudo apt purge nginx-common -y &>/dev/null
 
     msg_desinstalado
 
@@ -38,3 +38,8 @@ else
     msg_desinstalado
     sleep 2
 fi
+
+
+
+
+

@@ -61,7 +61,7 @@ function install_sendmail() {
     sudo echo '# AÑADIDO POR EL SCRIPT DE CONFIGURACION' | sudo tee --append /etc/ssmtp/ssmtp.conf
     sudo echo '########################################################################' | sudo tee --append /etc/ssmtp/ssmtp.conf
     sudo echo 'AuthUser=proyectopy@gmx.es' | sudo tee --append /etc/ssmtp/ssmtp.conf
-    sudo echo 'AuthPass=Ant4vi4n4' | sudo tee --append /etc/ssmtp/ssmtp.conf
+    sudo echo 'AuthPass=L4cl4v3degmx.3s' | sudo tee --append /etc/ssmtp/ssmtp.conf
     sudo echo 'FromLineOverride=YES' | sudo tee --append /etc/ssmtp/ssmtp.conf
     sudo echo 'mailhub=mail.gmx.es:587' | sudo tee --append /etc/ssmtp/ssmtp.conf
     sudo echo 'UseSTARTTLS=YES' | sudo tee --append /etc/ssmtp/ssmtp.conf
