@@ -18,6 +18,10 @@ source /home/pi/.configuracion/.scripts/.files/funciones.sh
 # VARIABLES USADAS EN ESTE SCRIPT
 ########################################################################
 hostname="$(cat /etc/hostname)"
+directorio="/var/www/html/phpmyadmin"
+user_pma=pi
+clave_pma=Ant4vi4n4
+pma_db=proyectopy
 uf=ufw
 paquetephp=php
 paqueteserver=nginx
@@ -32,6 +36,7 @@ function install_nginx() {
 
         clear
         app_servidor
+        echo "servidor"
         msg_yaesta
         msg_instalado
         clear
@@ -92,8 +97,7 @@ function install_nginx() {
         sudo systemctl reload nginx
         msg_instalado
         
-    fi    
-    install_mariadb
+    fi
 }
 ########################################################################
 #                   INSTALAR MARIADB
@@ -103,10 +107,12 @@ function install_mariadb() {
     then
 
         clear
+        echo "mariadb"
         msg_yaesta
         msg_instalado
         sleep 3
         clear
+        install_php
 
     else
         clear
@@ -134,7 +140,6 @@ function install_mariadb() {
         cursor_on
         msg_preparando
     fi
-    install_php
 }
 ########################################################################
 #                   INSTALAR PHP
@@ -144,10 +149,12 @@ function install_php() {
     then
 
         clear
+        echo "php"
         msg_yaesta
         msg_instalado
         sleep 3
         clear
+        install_snapd
         
     else
         clear
@@ -173,7 +180,6 @@ function install_php() {
 
         cursor_on
     fi
-    install_snapd
 }
 ########################################################################
 #                   INSTALAR CERTIFICADO LETS'ENCRIPT
@@ -183,10 +189,12 @@ function install_snapd() {
     then
 
         clear
+        echo "snap"
         msg_yaesta
         msg_instalado
         sleep 3
         clear
+        install_phpmyadmin
     else
         clear
         cursor_off
@@ -223,9 +231,47 @@ function install_snapd() {
 
         sudo certbot --nginx
 
-
+        install_phpmyadmin
         cursor_on
     fi
-    source /home/pi/.configuracion/.scripts/.menus/menuservidor.sh
+    
+}
+function install_phpmyadmin() {
+    
+    if [ -d "$directorio" ]
+    then
+        clear
+        echo "phpmyinfo"
+        msg_yaesta
+        msg_instalado
+        sleep 3
+        clear
+    else
+        echo "El directorio ${directorio} no existe"
+        #sudo chmod +x /home/pi/.configuracion/.scripts/.install/.servidores/PhpMyAdmin.sh
+        #source /home/pi/.configuracion/.scripts/.install/.servidores/PhpMyAdmin.sh 
+        sudo apt -y install php-bz2 php-mbstring php-xml php-zip php7.4-mysqli
+        sleep 1
+        sudo /etc/init.d/nginx reload 
+        wget https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.xz
+        sudo tar xf phpMyAdmin-5.2.1-all-languages.tar.xz -C /var/www/html/ 
+        sudo mv /var/www/html/phpMyAdmin-5.2.1-all-languages/ /var/www/html/phpmyadmin
+        sudo chown www-data /var/www/html/phpmyadmin/
+
+        sudo touch /home/pi/phpmyadmin.sql
+        sudo chown $USER:$USER /home/pi/phpmyadmin.sql
+        sudo echo "CREATE USER $user_pma IDENTIFIED BY $clave_pma;" >> /home/pi/phpmyadmin.sql
+        sudo echo "GRANT ALL PRIVILEGES ON $pma_db.* TO $user_pma;" >> /home/pi/phpmyadmin.sql
+        sudo echo "FLUSH PRIVILEGES;" >> /home/pi/phpmyadmin.sql
+        sudo echo "EXIT" >> /home/pi/phpmyadmin.sql
+        sleep 3
+
+        mysql -u root -p < phpmyadmin.sql
+
+        cat /var/www/html/phpmyadmin/sql/create_tables.sql | mysql -u pma -p
+        sudo rm /home/pi/phpmyadmin.sql
+        #sudo rm /home/pi/phpMyAdmin-5.1.1-all-languages.tar.xz
+        #sleep 3
+    fi
 }
 install_nginx
