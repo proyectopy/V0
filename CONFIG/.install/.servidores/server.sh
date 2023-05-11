@@ -18,7 +18,7 @@ source /home/pi/.configuracion/.scripts/.files/funciones.sh
 # VARIABLES USADAS EN ESTE SCRIPT
 ########################################################################
 hostname="$(cat /etc/hostname)"
-directorio="/var/www/html/phpmyadmin"
+directorio="/var/www/phpmyadmin"
 user_pma=pi
 clave_pma=Ant4vi4n4
 pma_db=proyectopy
@@ -247,6 +247,8 @@ function install_phpmyadmin() {
         sleep 3
         clear
     else
+        clear 
+        msg_instalando
         echo "El directorio ${directorio} no existe"
         #sudo chmod +x /home/pi/.configuracion/.scripts/.install/.servidores/PhpMyAdmin.sh
         #source /home/pi/.configuracion/.scripts/.install/.servidores/PhpMyAdmin.sh 
@@ -254,24 +256,25 @@ function install_phpmyadmin() {
         sleep 1
         sudo /etc/init.d/nginx reload 
         wget https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.xz
-        sudo tar xf phpMyAdmin-5.2.1-all-languages.tar.xz -C /var/www/html/ 
-        sudo mv /var/www/html/phpMyAdmin-5.2.1-all-languages/ /var/www/html/phpmyadmin
+        sudo tar xf phpMyAdmin-5.2.1-all-languages.tar.xz -C /var/www/ 
+        sudo mv /var/www/phpMyAdmin-5.2.1-all-languages/ /var/www/phpmyadmin
         sudo chown www-data /var/www/html/phpmyadmin/
 
         sudo touch /home/pi/phpmyadmin.sql
         sudo chown $USER:$USER /home/pi/phpmyadmin.sql
-        sudo echo "CREATE USER $user_pma IDENTIFIED BY $clave_pma;" >> /home/pi/phpmyadmin.sql
-        sudo echo "GRANT ALL PRIVILEGES ON $pma_db.* TO $user_pma;" >> /home/pi/phpmyadmin.sql
+        sudo echo "CREATE USER pma IDENTIFIED BY 'Ant4vi4n4';" >> /home/pi/phpmyadmin.sql
+        sudo echo "GRANT ALL PRIVILEGES ON *.* TO 'pma'@'localhost' IDENTIFIED BY 'Ant4vi4n4' WITH GRANT OPTION;" >> /home/pi/phpmyadmin.sql
         sudo echo "FLUSH PRIVILEGES;" >> /home/pi/phpmyadmin.sql
         sudo echo "EXIT" >> /home/pi/phpmyadmin.sql
         sleep 3
 
         mysql -u root -p < phpmyadmin.sql
 
-        cat /var/www/html/phpmyadmin/sql/create_tables.sql | mysql -u pma -p
+        cat /var/www/phpmyadmin/sql/create_tables.sql | mysql -u pma -p
         sudo rm /home/pi/phpmyadmin.sql
-        #sudo rm /home/pi/phpMyAdmin-5.1.1-all-languages.tar.xz
-        #sleep 3
+        sudo rm /home/pi/phpMyAdmin-5.1.1-all-languages.tar.xz
+        msg_instalado
+        sleep 3
     fi
 }
 install_nginx
