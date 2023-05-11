@@ -227,7 +227,7 @@ function install_snapd() {
 
         sudo ln -s /snap/bin/certbot /usr/bin/certbot
 
-        #Solicitar certificado y configurarlo en NGINX
+        #Solicitar certificado y configurarlo para todos los dominios configurados en NGINX
 
         sudo certbot --nginx
 
@@ -258,8 +258,8 @@ function install_phpmyadmin() {
         wget https://files.phpmyadmin.net/phpMyAdmin/5.2.1/phpMyAdmin-5.2.1-all-languages.tar.xz
         sudo tar xf phpMyAdmin-5.2.1-all-languages.tar.xz -C /var/www/ 
         sudo mv /var/www/phpMyAdmin-5.2.1-all-languages/ /var/www/phpmyadmin
-        sudo chown www-data /var/www/html/phpmyadmin/
-
+        sudo chown www-data /var/www/phpmyadmin/
+        #crea un script para dar de alta al usuario pma
         sudo touch /home/pi/phpmyadmin.sql
         sudo chown $USER:$USER /home/pi/phpmyadmin.sql
         sudo echo "CREATE USER pma IDENTIFIED BY 'Ant4vi4n4';" >> /home/pi/phpmyadmin.sql
@@ -272,7 +272,63 @@ function install_phpmyadmin() {
 
         cat /var/www/phpmyadmin/sql/create_tables.sql | mysql -u pma -p
         sudo rm /home/pi/phpmyadmin.sql
-        sudo rm /home/pi/phpMyAdmin-5.1.1-all-languages.tar.xz
+        sudo rm /home/pi/phpMyAdmin-5.2.1-all-languages.tar.xz
+
+        #CREA ARCHIVO DE CONFIGURACON PARA EL DOMINIO DE PHPMYADMIN
+        sudo touch /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo chown $USER:$USER /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+
+        sudo chmod 777 /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+
+
+
+        sudo echo "server {" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo " " >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   listen 80;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   listen [::]:80;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   server_name pma.proyectopy.duckdns.org www.pma.proyectopy.duckdns.org;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "    " >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   root /var/www/phpmyadmin/;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   index index.php index.html index.htm index.nginx-debian.html;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo " " >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   access_log /var/log/nginx/pma.proyectopy.duckdns.org.log;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   error_log /var/log/nginx/pma.proyectopy.duckdns.org.log;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "    " >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   location / {" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "     try_files \$uri \$uri/ /index.php;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   }" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "    " >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   location ~ ^/(doc|sql|setup)/ {" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "     deny all;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   }" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "    " >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   location ~ \.php$ {" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "     fastcgi_pass unix:/run/php/php7.4-fpm.sock;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "     fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "     include fastcgi_params;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "     include snippets/fastcgi-php.conf;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   }" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "    " >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   location ~ /\.ht {" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "     deny all;" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "   }" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo "}" >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+        sudo echo " " >> /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+
+        sudo chmod 644 /etc/nginx/sites-available/pma.proyectopy.duckdns.org
+
+        sudo ln -s /etc/nginx/sites-available/pma.proyectopy.duckdns.org /etc/nginx/sites-enabled/pma.proyectopy.duckdns.org
+
+        sudo systemctl reload nginx
+        
+        sudo certbot --nginx
+
+        #crea el crontab
+        (crontab -u pi -l; echo "00 00 */1 * * /usr/sbin/certbot-auto renew" ) | crontab -u pi -
+
+        msg_instalado
+
+
         msg_instalado
         sleep 3
     fi
