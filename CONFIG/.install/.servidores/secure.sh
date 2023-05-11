@@ -35,4 +35,3 @@ sudo echo "$SECURE_MYSQL"
 
 sudo apt -y purge expect
 
-source /home/pi/conf.sh
