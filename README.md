@@ -24,7 +24,7 @@ _En primer lugar hay que descargar el script a tu raspberry_
 _copia y pega en tu terminal lo siguiente y descargarás el script a tu equipo_
 
 ```
-sudo wget https://raw.githubusercontent.com/RaspyServer/V0/main/ConfigPi.sh
+sudo wget https://raw.githubusercontent.com/proyectopy/V0/main/ConfigPi.sh
 ```
 
 _le das permisos de ejecución_
