@@ -23,6 +23,7 @@ export ja="default-jdk"
 export un="unzip"
 export ereader="true"
 export eReader="@reboot sleep 180 && cd $PATH_UBOOQUITY && nohup /usr/bin/java -jar $PATH_UBOOQUITY/Ubooquity.jar /opt/ubooquity/Ubooquity.jar --remoteadmin --headless"
+
 ########################################################################
 # FUNCION INSTALAR UBOOQUITY
 ########################################################################

@@ -18,28 +18,28 @@ keystorepass=Ant4vi4n4 #the password for your keystore
  
 #this temporarily reroutes your traffic to port 443 to port 9999 for the domain ownership test letsencrypt does.  
 #it keeps you from having to shut down Ubooq service
-iptables -I INPUT -p tcp -m tcp --dport 9999 -j ACCEPT
+#iptables -I INPUT -p tcp -m tcp --dport 9999 -j ACCEPT
  
  
-iptables -t nat -I PREROUTING -i $networkdevice -p tcp -m tcp --dport 443 -j REDIRECT --to-ports 9999
+#iptables -t nat -I PREROUTING -i $networkdevice -p tcp -m tcp --dport 443 -j REDIRECT --to-ports 9999
  
  
 #Leave the top one uncommented for testing, it creates fake certs and won't count against the certificate limit from letsencrypt.  
 #Comment out top one and uncomment second command when ready to generate real cert
  
  
-$letsencryptdir/letsencrypt-auto certonly --verbose --standalone --test-cert --break-my-certs -d $mydomain --standalone-supported-challenges tls-sni-01 --tls-sni-01-port 9999 --renew-by-default --email $myemail --agree-tos
-#$letsencryptdir/letsencrypt-auto certonly --standalone -d $mydomain --standalone-supported-challenges tls-sni-01 --tls-sni-01-port 9999 --renew-by-default --email $myemail --agree-tos
+#$letsencryptdir/letsencrypt-auto certonly --verbose --standalone --test-cert --break-my-certs -d $mydomain --standalone-supported-challenges tls-sni-01 --tls-sni-01-port 9999 --renew-by-default --email $myemail --agree-tos
+$letsencryptdir/letsencrypt-auto certonly --standalone -d $mydomain --standalone-supported-challenges tls-sni-01 --tls-sni-01-port 9999 --renew-by-default --email $myemail --agree-tos
  
  
 #deletes rerouting rule
-iptables -t nat -D PREROUTING -i $networkdevice -p tcp -m tcp --dport 443 -j REDIRECT --to-ports 9999
-iptables -D INPUT -p tcp -m tcp --dport 9999 -j ACCEPT
+#iptables -t nat -D PREROUTING -i $networkdevice -p tcp -m tcp --dport 443 -j REDIRECT --to-ports 9999
+#iptables -D INPUT -p tcp -m tcp --dport 9999 -j ACCEPT
  
  
 #deletes any previous JKS keys
-$keytooldir/keytool -delete -alias root -storepass $keystorepass -keystore $keystoredir/ubooq_key.jks
-$keytooldir/keytool -delete -alias ubooq_key -storepass $keystorepass -keystore $keystoredir/ubooq_key.jks
+#$keytooldir/keytool -delete -alias root -storepass $keystorepass -keystore $keystoredir/ubooq_key.jks
+#$keytooldir/keytool -delete -alias ubooq_key -storepass $keystorepass -keystore $keystoredir/ubooq_key.jks
  
  
 #builds a usable keystore from the CA provided by letsencrypt
