@@ -21,8 +21,8 @@ source /home/pi/.configuracion/.scripts/.files/funciones.sh
 export smb="true"
 export paquete="samba"
 export uf="ufw"
-export dirpi="/smb/WinServer/eBooks"
-export dirwin="//192.168.1.60/eBooks"
+export dirpi="/smb/WinShare"
+export dirwin="//192.168.1.60/WinShare"
 export nombre="Wild South"
 export usuario="pi"
 export usuariowin="Wild"
@@ -76,7 +76,7 @@ function install_smb() {
     sudo sed -i "s/ map to guest = bad user/ map to guest = never/g" /etc/samba/smb.conf
     sudo sed -i "s/ read only = yes/ read only = no/g" /etc/samba/smb.conf
     sudo echo "# Añadido por el script de Configuracion Inicial" >> /etc/samba/smb.conf
-    sudo echo "[WinINPy]" >> /etc/samba/smb.conf
+    sudo echo "[WinShare]" >> /etc/samba/smb.conf
     sudo echo "     comment = Carpetas compartidas de Windows en Raspberry Pi" >> /etc/samba/smb.conf
     sudo echo "     path = $dirpi" >> /etc/samba/smb.conf
     sudo echo "     writeable = Yes" >> /etc/samba/smb.conf
@@ -96,12 +96,13 @@ function install_smb() {
 
     # Escribe el archivo fstab
     
-    echo "$dirpi    $dirwin cifs user=$usuariowin,password=$clave,noexec,user,rw,nounix,uid=1000,iocharset=utf8 0 0" >> /etc/fstab
+    echo "$dirwin    $dirpi cifs user=$usuariowin,password=$clave,noexec,user,rw,nounix,uid=1000,iocharset=utf8 0 0" >> /etc/fstab
     
     sudo chown -R root:root /etc/fstab
     sudo chmod -R 644 /etc/fstab
     #sudo mount -t cifs //192.168.1.60/eBooks -o username=Wild,password=Ant4vi4n4 /smb/WinServer
-    sudo mount -t cifs $dirwin -o username=$usuariowin,password=$clave $dirpi 
+    #sudo mount -t cifs $dirwin -o username=$usuariowin,password=$clave $dirpi 
+    mount -a
     
 #fi
 
